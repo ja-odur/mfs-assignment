@@ -1,7 +1,8 @@
 from django.contrib import auth
 from .models import User
 from rest_framework import serializers
-from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.exceptions import AuthenticationFailed, ValidationError
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -36,3 +37,17 @@ class LoginSerializer(serializers.ModelSerializer):
             raise AuthenticationFailed("Account disabled, contact admin")
 
         return {'email': user.email, 'tokens': user.tokens}
+
+
+class LogoutSerializer(serializers.Serializer):
+    refresh_token = serializers.CharField()
+
+    def validate(self, data):
+        self.refresh_token = data.get('refresh_token')
+        return data
+
+    def save(self):
+        try:
+            RefreshToken(self.refresh_token).blacklist()
+        except TokenError:
+            raise ValidationError('Expired or Invalid Token')
