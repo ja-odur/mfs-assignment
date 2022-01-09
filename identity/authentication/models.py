@@ -3,6 +3,7 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models, transaction
 from django.utils.translation import ugettext_lazy as _
+from rest_framework_simplejwt.tokens import RefreshToken
 
 mailbox_pat = r"[-!#$%&'*+/=?^_`{}|~0-9A-Z]+(\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*"  # dot-atom
 
@@ -99,8 +100,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
+    @property
     def tokens(self):
-        return
+        refresh_token = RefreshToken.for_user(self)
+        return {'refresh_token': str(refresh_token), 'access_token': str(refresh_token.access_token)}
 
     def __str__(self):
         short = self.name.strip()
