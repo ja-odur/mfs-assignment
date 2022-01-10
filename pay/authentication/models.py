@@ -50,8 +50,6 @@ class CustomUserManager(BaseUserManager):
     def create_user(self, email, **extra_fields):
         extra_fields.setdefault('is_staff', False)
 
-        extra_fields.setdefault('preferred_name', extra_fields.get('first_name'))
-
         user = self._create_user(email, **extra_fields)
         return user
 
