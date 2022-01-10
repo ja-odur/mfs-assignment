@@ -1,0 +1,9 @@
+cryptography
+django
+djangorestframework
+djangorestframework-simplejwt
+drf-yasg
+PyJWT==1.7.1
+python-decouple
+psycopg2-binary
+dj_database_url
