@@ -31,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'channel.MinimalUser'
+AUTH_USER_MODEL = 'authentication.MinimalUser'
 
 # Application definition
 
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     # my apps
-    'authentication,'
+    'authentication',
     'channel',
     'payment'
 ]
@@ -127,8 +127,7 @@ SIMPLE_JWT = {
 REST_FRAMEWORK = {
     'NON_FIELD_ERRORS_KEY': 'error',
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'authentication.backend.JWTGetOrCreateUserAuthentication',
     )
 }
 
