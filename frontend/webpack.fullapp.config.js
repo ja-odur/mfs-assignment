@@ -9,6 +9,6 @@ config.entry = './index.js';
 config.output.publicPath = '/';
 
 // Add HTMLWebpack plugin
-config.plugins = config.plugins.concat([new HtmlWebpackPlugin({ template: './standaloneIndex.html' })]);
+config.plugins = config.plugins.concat([new HtmlWebpackPlugin({ template: './standaloneIndex.html', filename: 'index.html' } )]);
 
 module.exports = config;

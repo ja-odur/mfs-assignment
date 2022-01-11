@@ -1,6 +1,6 @@
 const path = require('path');
 // const autoprefixer = require('autoprefixer');
-// const webpack = require('webpack');
+const webpack = require('webpack');
 // const TerserPlugin = require('terser-webpack-plugin');
 
 // const ROOT = path.resolve(__dirname, 'frontend');
@@ -24,7 +24,7 @@ function postCSSLoader() {
     loader: 'postcss-loader',
     options: {
       postcssOptions: {
-        plugins: [['postcss-preset-env', {}]],
+        plugins: [['postcss-preset-env', {}], require('tailwindcss')],
       },
     },
   };
@@ -33,7 +33,7 @@ function postCSSLoader() {
 const config = () => {
   const NODE_ENV = process.env.NODE_ENV || 'local';
 
-  const STATIC_DIR = 'frontend/static/frontend';
+  const STATIC_DIR = 'public';
 
   const DIST_DIR = path.resolve(__dirname, STATIC_DIR);
 
@@ -44,27 +44,27 @@ const config = () => {
   return {
     context: path.resolve(__dirname),
 
-    entry: './frontend/index.js',
+    entry: './index.js',
 
     output: {
       path: DIST_DIR,
       filename: '[name].bundle.js',
-      publicPath: `/${STATIC_DIR}/`,
+      publicPath: `/`,
     },
 
     // webpack 5 comes with devServer which loads in development mode
     devServer: {
+      // publicPath: '/',
+      static: "./public",
       port: 5555,
       headers: { 'Access-Control-Allow-Origin': '*' },
       compress: true,
       hot: true,
-      static: {
-        directory: './static',
-      },
+      historyApiFallback: true,
     },
 
     resolve: {
-      modules: [ROOT, 'frontend/src', 'node_modules'],
+      modules: [ROOT, 'node_modules'],
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
 
@@ -115,7 +115,10 @@ const config = () => {
       ],
     },
 
-    plugins: [],
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        // new webpack.NoErrorsPlugin()
+    ],
   };
 };
 
