@@ -17,7 +17,7 @@ export default function Home() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={user.isLoggedIn ? <Profile /> : <Navigate to='/signin' />}  />
+                <Route path="/" element={user.isLoggedIn ? <ViewChannels /> : <Navigate to='/signin' />}  />
                 <Route path="/create-channel" element={user.isLoggedIn ? <CreateChannel /> : <Navigate to='/signin' />}  />
                 <Route path="/channels" element={user.isLoggedIn ? <ViewChannels /> : <Navigate to='/signin' />}  />
                 <Route path="/create-payment" element={user.isLoggedIn ? <CreatePayment /> : <Navigate to='/signin' />}  />
