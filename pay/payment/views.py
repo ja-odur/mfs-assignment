@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.db.models import Q
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from rest_framework import permissions
 from .models import Payment
@@ -11,16 +11,26 @@ class PaymentListCreateView(ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def perform_create(self, serializer):
-        return serializer.save(sender=self.request.user)
+        data = serializer.validated_data
+        amount = data.get('amount')
+        sender = data.get('send_channel')
+        receiver = data.get('receive_channel')
+        sender.amount = sender.amount - int(amount)
+        receiver.amount = receiver.amount + int(amount)
+        sender.save()
+        receiver.save()
+        return serializer.save()
 
     def get_queryset(self):
-        return self.queryset.filter(sender=self.request.user)
+        return self.queryset.filter(
+            Q(send_channel__user__email=self.request.user) | Q(receive_channel__user__email=self.request.user)
+        )
 
 
 class PaymentDetailsView(RetrieveAPIView):
     serializer_class = PaymentSerializer
     queryset = Payment.objects.all()
-    permission_classes = (permissions.IsAuthenticated)
+    permission_classes = (permissions.IsAuthenticated,)
     lookup_field = 'id'
 
     def perform_create(self, serializer):
