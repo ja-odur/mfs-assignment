@@ -37,18 +37,18 @@ export default function SideBar({active, children}) {
 
                 {
                   title: 'Channels',
-                  itemId: '/channels',
+                  itemId: '/create-channel',
                   elemBefore: () => <Icon name="inbox" />,
                   subNav: [
                     {
                       title: 'New Channel',
-                      itemId: '/management/projects',
+                      itemId: '/create-channel',
                       // Requires v1.9.1+ (https://github.com/abhijithvijayan/react-minimal-side-navigation/issues/13)
                       elemBefore: () => <Icon name="bell" />,
                     },
                     {
                       title: 'View Channels',
-                      itemId: '/management/members',
+                      itemId: '/channels',
                       elemBefore: () => <Icon name="bell" />,
                     },
                   ],
