@@ -14,11 +14,8 @@ export default function Home() {
         <Router>
             <Routes>
                 <Route path="/" element={user.isLoggedIn ? <Profile /> : <Navigate to='/signin' />}  />
-                {/*<ProtectedRoute path="/" element={<Profile />} />*/}
-                {/*<Route path="/" element={<SignIn />} />*/}
-                <Route exact path="/signin" element={<SignIn />} />
-                <Route exact path="/signup" element={<SignUp />} />
-                <Route exact path="/profilex" element={<Profile />} />
+                <Route exact path="/signin" element={user.isLoggedIn ? <Navigate to='/' /> : <SignIn />}  />
+                <Route exact path="/signup" element={user.isLoggedIn ? <Navigate to='/' /> : <SignUp />}  />
             </Routes>
 
         </Router>

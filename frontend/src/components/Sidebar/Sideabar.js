@@ -1,15 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Icon from "awesome-react-icons";
 
 import {Navigation} from 'react-minimal-side-navigation';
-
+import { useNavigate } from "react-router-dom";
 import Profile from './../Profile'
+import { logoutUser } from "../../../redux/user/operation";
+import { useDispatch } from "react-redux";
+import { useLoggedInUser} from "../../../redux/user/selectors";
+import { Navigate } from "react-router-dom";
 
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
-import {Route, Routes, useNavigate} from "react-router-dom";
 
 export default function SideBar({active, children}) {
+  const user = useLoggedInUser();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  if (!user.isLoggedIn) {
+    return <Navigate to={'/signin'} />
+  }
 
     return (
       <div style={{display: "flex", flexWrap: "wrap"}}>
@@ -70,6 +79,16 @@ export default function SideBar({active, children}) {
                 },
               ]}
             />
+            <div style={{padding: "5px", marginTop: "50px"}}>
+              <span
+                  style={{cursor: "pointer", textTransform: "uppercase"}}
+                  onClick={() => {
+
+                    dispatch(logoutUser())
+                  }}>
+                logout
+              </span>
+            </div>
           </div>
 
           </div>
