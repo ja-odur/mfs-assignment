@@ -1,7 +1,7 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework import permissions
 from .models import PayChannel
-from .serializers import PayChannelSerializer
+from .serializers import PayChannelSerializer, ListAllPayChannelSerializer
 from .permissions import IsOwner
 
 
@@ -28,3 +28,9 @@ class PayChannelDetailsView(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
+
+
+class AllPaymentsDetailView(ListAPIView):
+    serializer_class = ListAllPayChannelSerializer
+    queryset = PayChannel.objects.all()
+    permission_classes = (permissions.IsAuthenticated,)
