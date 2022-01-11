@@ -4,3 +4,7 @@ import { useSelector } from "react-redux";
 export const useChannels= () => {
   return useSelector((state) => state.channel.channels);
 };
+
+export const useAllUserChannels= () => {
+  return useSelector((state) => state.channel.allChannels);
+};
