@@ -7,8 +7,7 @@ services:
     environment:
       POSTGRES_USER: docker
       POSTGRES_PASS: docker
-      POSTGRES_MULTIPLE_DATABASES: auth,pay
-#      POSTGRES_DB: auth
+      POSTGRES_DB: auth
     ports:
       - "5444:5432"
     volumes:
@@ -17,20 +16,20 @@ services:
     networks:
       - mfs-network
 
-#  db-pay:
-#    image: postgres:9.6.10-alpine
-#    user: postgres
-#    environment:
-#      POSTGRES_USER: docker
-#      POSTGRES_PASS: docker
-#      POSTGRES_DB: pay
-#    ports:
-#      - "5445:5432"
-#    volumes:
-#      - db2_data:/var/lib/postgresql/data
-#    restart: unless-stopped
-#    networks:
-#      - mfs-network
+  db_pay:
+    image: postgres:9.6.10-alpine
+    user: postgres
+    environment:
+      POSTGRES_USER: docker2
+      POSTGRES_PASS: docker2
+      POSTGRES_DB: pay
+    ports:
+      - "5333:5432"
+    volumes:
+      - db2_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - mfs-network
 
   build-auth-app:
     build:
@@ -39,7 +38,7 @@ services:
     image: jaodur/mfs-auth
     command: echo auth image build complete
     volumes:
-      - .:/app
+      - ./identity:/app
     env_file:
       - ./identity/.env
     networks:
@@ -54,19 +53,19 @@ services:
     image: jaodur/mfs-pay
     command: echo pay image build complete
     volumes:
-      - .:/app
+      - ./pay:/app
     env_file:
       - ./pay/.env
     networks:
       - mfs-network
     depends_on:
-      - db
+      - db_pay
 
   migrate-auth:
     image: jaodur/mfs-auth
-    command: python identity/manage.py migrate
+    command: python manage.py migrate
     volumes:
-      - .:/app
+      - ./identity:/app
     env_file:
       - ./identity/.env
     networks:
@@ -77,23 +76,23 @@ services:
 
   migrate-pay:
     image: jaodur/mfs-pay
-    command: python pay/manage.py migrate
+    command: python manage.py migrate
     volumes:
-      - .:/app
+      - ./pay:/app
     env_file:
-      - ./identity/.env
+      - ./pay/.env
     networks:
       - mfs-network
     depends_on:
-      - db
+      - db_pay
       - build-pay-app
 
   auth:
     image: jaodur/mfs-auth
-    command: python identity/manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     stdin_open: true
     volumes:
-      - .:/app
+      - ./identity:/app
     env_file:
       - ./identity/.env
     ports:
@@ -105,10 +104,10 @@ services:
 
   pay:
     image: jaodur/mfs-pay
-    command: python pay/manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     stdin_open: true
     volumes:
-      - .:/app
+      - ./pay:/app
     env_file:
       - ./pay/.env
     ports:
@@ -123,10 +122,10 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     image: jaodur/mfs-frontend
-    command: bash -c "npm rebuild node-sass && npm run watch"
+    command: bash -c "npm rebuild node-sass && npm run standalone"
     stdin_open: true
     volumes:
-      - .:/app
+      - ./frontend:/app
     ports:
     - "5555:5555"
     env_file:
@@ -141,4 +140,4 @@ networks:
 
 volumes:
   db_data: {}
-#  db2_data: {}
+  db2_data: {}
