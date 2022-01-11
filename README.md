@@ -22,7 +22,7 @@ create a `.env` file in the Identity's root directory (inside the `./identity` f
 
 
 
-##### Env variables for the Identity Service
+##### Env variables for the Pay Service
 
 create a `.env` file in the Pay's root directory (inside the `./pay` folder). The keys of the file are described below.
 
