@@ -40,5 +40,10 @@ create a `.env` file in the Pay's root directory (inside the `./pay` folder). Th
 
 - To start the app `docker-compose up`
 
+## API Documentations
+The api are documented with Swagger and can be found at the root of each Django service
+- Identity docs [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+- Pay docs [http://127.0.0.1:8001/](http://127.0.0.1:8001/)
+
 ## Author(s)
 - J. A. Odur
