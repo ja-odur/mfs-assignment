@@ -84,7 +84,7 @@ export default function CreatePayment() {
                 >
                    {userChannels.map((option) => (
                         <MenuItem key={option.id} value={option.id}>
-                            {option.name}
+                            {option.name} ({option.currency})
                         </MenuItem>
                     ))}
                 </TextField>
@@ -99,7 +99,7 @@ export default function CreatePayment() {
                 >
                    {allChannels.map((option) => (
                         <MenuItem key={option.id} value={option.id}>
-                            {option.user.email} {option.name}
+                            {option.user.email} {option.name} ({option.currency})
                         </MenuItem>
                     ))}
                 </TextField>
