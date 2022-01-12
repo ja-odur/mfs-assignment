@@ -13,7 +13,7 @@ class PayChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = PayChannel
         fields = ['id', 'type', 'name', 'currency', 'user', 'amount']
-        read_only_fields = ('id', 'amount',)
+        read_only_fields = ('id', 'amount', 'user')
 
 
 class ListAllPayChannelSerializer(serializers.ModelSerializer):
