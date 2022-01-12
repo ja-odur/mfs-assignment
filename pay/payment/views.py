@@ -1,6 +1,7 @@
 from django.db.models import Q
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from rest_framework import permissions
+from rest_framework.exceptions import ValidationError
 from .models import Payment
 from .serializers import PaymentSerializer
 
@@ -11,10 +12,21 @@ class PaymentListCreateView(ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def perform_create(self, serializer):
+
         data = serializer.validated_data
         amount = data.get('amount')
         sender = data.get('send_channel')
         receiver = data.get('receive_channel')
+
+        if sender.type != receiver.type:
+            raise ValidationError('Different account types')
+
+        if sender.id == receiver.id:
+            raise ValidationError('Transferring to the same account')
+
+        if sender.amount < amount:
+            raise ValidationError('Insufficient amount')
+
         sender.amount = sender.amount - int(amount)
         receiver.amount = receiver.amount + int(amount)
         sender.save()

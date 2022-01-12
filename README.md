@@ -40,6 +40,9 @@ create a `.env` file in the Pay's root directory (inside the `./pay` folder). Th
 
 - To start the app `docker-compose up`
 
+##### accessing the running application
+- The frontend can be accessed on [http://localhost:5555/](http://localhost:5555/)
+
 ## API Documentations
 The api are documented with Swagger and can be found at the root of each Django service
 - Identity docs [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
