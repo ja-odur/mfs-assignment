@@ -54,17 +54,17 @@ export default function SideBar({active, children}) {
                   ],
                 },
                 {
-                  title: 'Payments',
+                  title: 'Transfers',
                   itemId: '/create-payment',
                   elemBefore: () => <Icon name="inbox" />,
                   subNav: [
                     {
-                      title: 'New Payment',
+                      title: 'New Transfer',
                       itemId: '/create-payment',
                       elemBefore: () => <Icon name="bell" />,
                     },
                     {
-                      title: 'View Payments',
+                      title: 'View Transfers',
                       itemId: '/payments',
                       elemBefore: () => <Icon name="bell" />,
                     },

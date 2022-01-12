@@ -18,7 +18,7 @@ export default function ViewPayments() {
   return (
       <Sideabar active='/payments'>
           <div style={{padding: "10px"}}>
-            <MaterialTable columns={columns} data={payments} title='Payments' />
+            <MaterialTable columns={columns} data={payments} title='Transfers' />
           </div>
       </Sideabar>
   );

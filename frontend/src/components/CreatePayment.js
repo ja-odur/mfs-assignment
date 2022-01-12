@@ -52,7 +52,7 @@ export default function CreatePayment() {
           <Container component="main" maxWidth="xs">
             {/*<CssBaseline />*/}
             <Typography component="h1" variant="h5">
-                Create a new payment
+                Make a transfer
             </Typography>
             <Box
               sx={{
@@ -119,7 +119,7 @@ export default function CreatePayment() {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Create New Payment
+                  Transfer
                 </Button>
               </Box>
             </Box>
