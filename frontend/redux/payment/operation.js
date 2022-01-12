@@ -1,5 +1,7 @@
 import { LOAD_PAYMENT_SUCCESS, CREATE_PAYMENT_SUCCESS} from "./action";
 import axios from "axios";
+import { updateMainAlert } from "../MainAlert/operations";
+import {setAuthToken, createAlertBarExtraContentFromObject} from "../../utils";
 
 const createPaymentApi = async (data) => {
   return await axios.post('http://127.0.0.1:8001/payment/', data).then((response) => response.data);
@@ -18,6 +20,13 @@ export const loadPayments = () => async (dispatch) => {
       });
     })
     .catch((err) => {
+        dispatch(
+            updateMainAlert({
+                show: true,
+                message: "Some Errors occurred",
+                severity: 'error',
+                extra: createAlertBarExtraContentFromObject(err.response.data)})
+        )
         console.log('error', err.response.data)
     });
 };
@@ -28,9 +37,17 @@ export const createPayment = (data) => async (dispatch) => {
         type: CREATE_PAYMENT_SUCCESS,
         payload: resData,
       });
+      dispatch(updateMainAlert({show: true, message: "Transfer successfully made"}))
       dispatch(loadPayments());
     })
     .catch((err) => {
+        dispatch(
+            updateMainAlert({
+                show: true,
+                message: "Some Errors occurred",
+                severity: 'error',
+                extra: createAlertBarExtraContentFromObject(err.response.data)})
+        )
         console.log('error', err.response.data)
     });
 };
