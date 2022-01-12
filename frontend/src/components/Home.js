@@ -7,6 +7,7 @@ import CreateChannel from "./CreateChannel";
 import ViewChannels from "./ViewChannels";
 import CreatePayment from "./CreatePayment";
 import ViewPayments from "./ViewPayments";
+import TransitionAlerts from "./TransitionAlert";
 import { useLoggedInUser } from "../../redux/user/selectors";
 
 
@@ -16,6 +17,7 @@ export default function Home() {
 
     return (
         <Router>
+            <TransitionAlerts />
             <Routes>
                 <Route path="/" element={user.isLoggedIn ? <ViewChannels /> : <Navigate to='/signin' />}  />
                 <Route path="/create-channel" element={user.isLoggedIn ? <CreateChannel /> : <Navigate to='/signin' />}  />

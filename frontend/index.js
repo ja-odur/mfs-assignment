@@ -5,6 +5,8 @@ import createReduxStore from './redux/createStore';
 import jwt_decode from "jwt-decode";
 import {setAuthToken} from "./utils";
 import { setUser } from "./redux/user/operation";
+import { ThemeProvider } from "@material-ui/styles";
+import { createTheme } from '@material-ui/core';
 import Home from './src/components/Home'
 
 import './index.css';
@@ -37,4 +39,9 @@ if (localStorage.user) {
 const root = document.getElementById('app');
 
 // Bootstrap the main app
-render(<ReduxProvider store={store}><Home /></ReduxProvider>, root);
+render(
+    <ReduxProvider store={store}>
+        <ThemeProvider theme={createTheme({})}>
+            <Home />
+        </ThemeProvider>
+    </ReduxProvider>, root);
