@@ -1,8 +1,13 @@
-import { LOGIN_USER_SUCCESS } from "./action";
+import { LOGIN_USER_SUCCESS, REGISTER_USER_SUCCESS } from "./action";
 import axios from "axios";
+import {setAuthToken} from "../../utils";
 
 const loginUserApi = async (data) => {
   return await axios.post('http://127.0.0.1:8000/auth/login/', data).then((response) => response.data);
+};
+
+const registerUserApi = async (data) => {
+  return await axios.post('http://127.0.0.1:8000/auth/register/', data).then((response) => response.data);
 };
 
 const logoutUserApi = async (data) => {
@@ -45,3 +50,18 @@ export const logoutUser = () => async (dispatch, getState) => {
         console.log('error', err.response.data)
     });
 };
+
+export const registerUser = (data) => async (dispatch) => {
+  return await registerUserApi(data)
+    .then((resData) => {
+      dispatch({
+        type: REGISTER_USER_SUCCESS,
+        payload: data,
+      });
+    })
+    .catch((err) => {
+        console.log('error', err.response.data)
+    });
+};
+
+

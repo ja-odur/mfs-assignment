@@ -13,20 +13,25 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'
+import {registerUser} from "../../redux/user/operation";
+import {useDispatch} from "react-redux";
 
 const theme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
-    console.log({
+    dispatch(registerUser({
       email: data.get('email'),
+      first_name: data.get('firstName'),
+      last_name: data.get('lastName'),
       password: data.get('password'),
-    });
+    }));
   };
 
   return (
