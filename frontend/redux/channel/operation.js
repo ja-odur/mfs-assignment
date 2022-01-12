@@ -1,5 +1,7 @@
 import { LOAD_CHANNEL_SUCCESS, CREATE_CHANNEL_SUCCESS, LOAD_ALL_CHANNELS_SUCCESS } from "./action";
 import axios from "axios";
+import { updateMainAlert } from "../MainAlert/operations";
+import {createAlertBarExtraContentFromObject} from "../../utils";
 
 const createChannelApi = async (data) => {
   return await axios.post('http://127.0.0.1:8001/channel/', data).then((response) => response.data);
@@ -23,6 +25,13 @@ export const loadChannels = () => async (dispatch) => {
       });
     })
     .catch((err) => {
+        dispatch(
+            updateMainAlert({
+                show: true,
+                message: "Some Errors occurred",
+                severity: 'error',
+                extra: createAlertBarExtraContentFromObject(err.response.data)})
+        )
         console.log('error', err.response.data)
     });
 };
@@ -34,9 +43,17 @@ export const createChannel = (data) => async (dispatch) => {
         type: CREATE_CHANNEL_SUCCESS,
         payload: resData,
       });
+      dispatch(updateMainAlert({show: true, message: "Channel successfully created"}))
       dispatch(loadChannels());
     })
     .catch((err) => {
+        dispatch(
+            updateMainAlert({
+                show: true,
+                message: "Some Errors occurred",
+                severity: 'error',
+                extra: createAlertBarExtraContentFromObject(err.response.data)})
+        )
         console.log('error', err.response.data)
     });
 };
@@ -51,6 +68,13 @@ export const loadAllChannels = () => async (dispatch) => {
       });
     })
     .catch((err) => {
+        dispatch(
+            updateMainAlert({
+                show: true,
+                message: "Some Errors occurred",
+                severity: 'error',
+                extra: createAlertBarExtraContentFromObject(err.response.data)})
+        )
         console.log('error', err.response.data)
     });
 };
