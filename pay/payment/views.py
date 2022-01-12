@@ -17,9 +17,8 @@ class PaymentListCreateView(ListCreateAPIView):
         amount = data.get('amount')
         sender = data.get('send_channel')
         receiver = data.get('receive_channel')
-
-        if sender.type != receiver.type:
-            raise ValidationError('Different account types')
+        if sender.currency != receiver.currency:
+            raise ValidationError('Different account currencies')
 
         if sender.id == receiver.id:
             raise ValidationError('Transferring to the same account')
