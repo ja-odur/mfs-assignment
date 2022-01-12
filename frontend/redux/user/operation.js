@@ -13,7 +13,8 @@ const logoutUserApi = async (data) => {
 export const loginUser = (data) => async (dispatch) => {
   return await loginUserApi(data)
     .then((resData) => {
-      localStorage.setItem('user', JSON.stringify(resData))
+      localStorage.setItem('user', JSON.stringify(resData));
+      setAuthToken(resData.tokens.access_token);
       dispatch({
         type: LOGIN_USER_SUCCESS,
         payload: resData,

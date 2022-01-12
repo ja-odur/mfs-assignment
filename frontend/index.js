@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Provider as ReduxProvider } from 'react-redux';
 import createReduxStore from './redux/createStore';
 import jwt_decode from "jwt-decode";
-import axios from "axios";
+import {setAuthToken} from "./utils";
 import { setUser } from "./redux/user/operation";
 import Home from './src/components/Home'
 
@@ -11,19 +11,6 @@ import './index.css';
 
 const store = createReduxStore();
 
-
-const setAuthToken = (token) => {
-  if (token) {
-
-    // Apply authorization token to every request if logged in
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-  } else {
-    // Delete auth header
-    delete axios.defaults.headers.common["Authorization"];
-  }
-};
-export default setAuthToken;
 
 if (localStorage.user) {
   // Set auth token header auth
